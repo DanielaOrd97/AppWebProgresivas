@@ -1,0 +1,20 @@
+{
+  "name": "Mi primer PWA",
+  "description": "Ejercicio de 9no semeste",
+  "icons": [
+    {
+      "src": "pictures/itesrc512.png",
+      "sizes": "512x512"
+    },
+    {
+      "src": "pictures/itesrc192.png",
+      "sizes": "192x192"
+    }
+  ],
+  "start_url": "index.html",
+  "orientation": "portrait", //any,portrait,landscape.
+  "display": "standalone" //que la app tenga su propia ventana.
+}
+
+//imagen 512x512. png
+//colocar en subcarpeta de wwwroot las imagenes. 

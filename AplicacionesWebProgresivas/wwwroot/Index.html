@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link href="Manifest.json" rel="manifest"/>
+    <meta name="viewport" content="width=device-width" />
+    <style>
+        body,html{
+            padding: 0;
+            margin:0;
+            width:100%;
+        }
+        h1{
+            background:darkgreen;
+            text-align:center;
+            color:white;
+            padding:10px;
+        }
+        form{
+            margin:20px auto;
+            max-width: 500px;
+            display: grid;
+            grid-gap: 10px;
+            width:100%;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Mi primer PWA</h1>
+
+    <form>
+        <label>Numero 1</label>
+        <input id="n1" type="number" />
+
+        <label>Numero 2</label>
+        <input id="n2" type="number" />
+
+        <input id="boton" type="button" value="Sumar"/>
+        <label>Resultado:</label>
+        <input id="res" readonly/>
+    </form>
+
+    <script>
+        let n1 = document.getElementById("n1");
+        let n2 = document.getElementById("n2");
+        let res = document.getElementById("res");
+
+        document.getElementById("boton").addEventListener("click", function () {
+            if (n1.value && n2.value) {
+                res.value = Number(n1.value) + Number(n2.value);
+            }
+        });
+
+    </script>
+
+    <script>
+        navigator.serviceWorker.register("serviceworker.js"); //registro del service worker a la aplicacion.
+    </script>
+</body>
+</html>
