@@ -1,0 +1,6 @@
+@PendientesPWA_HostAddress = http://localhost:5007
+
+GET {{PendientesPWA_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
