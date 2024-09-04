@@ -10,6 +10,14 @@ namespace PendientesPWA.Controllers
 
     //PREGUNTA DE ENTREVISTA: PRINCIPIOS SOLID
 
+    /*
+     1. SRP: Single Responsability Principle: (Repository, service, validators)
+     2. Open/Close Principle: Abierto para funcionalidades nuevas, cerrado para las que ya estan hechas. Para evitar errores y poder revertir.
+     3. Liskov Sustitution Principle: Cualquier clase deberia ser sustituida por otra y seguir funcionando (Herencia, polimorfismo).
+     4. Interface Segreggation Principle: Separar y definir que es lo que se requiere y de ahi se crear el objeto. (Herencia)
+     5. Dependency Inversion Principle: Inyeccion de dependencias.
+     */
+
     [Route("api/[controller]")]
     [ApiController]
     public class PendientesController : ControllerBase
