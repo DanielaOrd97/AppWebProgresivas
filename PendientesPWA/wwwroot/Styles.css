@@ -1,0 +1,51 @@
+﻿html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family:Arial;
+}
+
+body{
+    display: grid;
+    grid-template-rows: 70px auto;
+}
+
+header{
+    background-color: navy;
+    color: white;
+    text-align: center;
+    font-size: medium;
+    line-height: 50px;
+}
+
+main{
+    overflow: auto;
+}
+
+table{
+    width: 100%;
+    border-collapse: collapse;
+    empty-cells: show;
+    font-size: 1.2em;
+}
+
+table thead{
+    position: fixed;
+    top:70px;
+    width: 100%;
+    display: block;
+    background-color:yellow;
+}
+
+    table th {
+        padding: 5px;
+        background-color: gainsboro;
+        width: 100%;
+    }
+
+table td:last-child{
+    width: 20px;
+    text-align: center;
+}
+

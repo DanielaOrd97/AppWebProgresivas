@@ -95,10 +95,58 @@ namespace PendientesPWA.Controllers
             return Ok();
         }
 
+
         [HttpPut("editarEstado")]
-        public IActionResult EditarEstado(PendienteDTO dto)
+        public async Task<IActionResult> EditarEstado(PendienteDTO dto)
         {
+            if(dto.Estado == null)
+            {
+                return BadRequest("Debe especificar el estado.");
+            }
+
+            var pendiente = Context.Pendiente.Find(dto.Id);
+
+            if (pendiente == null)
+            {
+                return NotFound();
+            }
+
+            pendiente.Estado = dto.Estado;
+            Context.Update(pendiente);
+            int total = Context.SaveChanges(); //Porque EntityFramework se asegura que el dato anterior y el nuevo no se repitan. Si se repiten, no hay cambios.
+
+            //Notificar con signalr en caso de haber cambios.
+            if (total > 0)
+            {
+                await HubContext.Clients.All.SendAsync("PendienteEditado", new
+                {
+                    pendiente.Id,
+                    pendiente.Estado
+                });
+            }
+
             return Ok();
         }
+
+        [HttpDelete]
+        public async  Task<IActionResult> Delete(int id)
+        {
+            var pendiente = Context.Pendiente.Find(id);
+
+            if (pendiente == null)
+            {
+                return NotFound();
+            }
+
+            Context.Remove(pendiente);
+            Context.SaveChanges();
+
+            //Notificar eliminacion.
+            await HubContext.Clients.All.SendAsync("PendienteEliminado", pendiente.Id);
+
+            return Ok();
+        }
+
+        //Extension conveyor para probar api sin doimnio.
     }
 }

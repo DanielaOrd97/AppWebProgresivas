@@ -4,6 +4,11 @@ using PendientesPWA.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddRazorPages();  //vistas de razor sin controladores....
+
+//Add signalr
+builder.Services.AddSignalR();
+
 // Add services to the container.
 
 builder.Services.AddControllers(); //para la api
@@ -12,9 +17,10 @@ builder.Services.AddDbContext<PendientesContext>(x => x.UseMySql("server=localho
 
 var app = builder.Build();
 
-
 app.UseStaticFiles(); //para el front de la pwa
 app.MapHub<PendientesHub>("/hub");
+app.MapRazorPages();
+
 
 app.Run();
 
