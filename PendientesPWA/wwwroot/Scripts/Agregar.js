@@ -11,7 +11,7 @@ btn.addEventListener("click", async function (e) {
         //fecth para enviar la peticion (async).
         let result = await fetch("api/Pendientes",
             {
-                method = "post",
+                method: "post",
                 body: JSON.stringify(json), //convierte a string el objeto.
                 headers: {
                     "Content-Type": "application/json"
@@ -21,7 +21,8 @@ btn.addEventListener("click", async function (e) {
         );
 
         if (result.ok) {
-            window.location.replace("/index");
+            window.location.replace("/Index");
+            console.log("Ok");
         }
         else if (result.status == 400) {
             //bad request

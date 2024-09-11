@@ -21,7 +21,7 @@ async function actualizar() {
             let tr = tbody.insertRow(); //internamente hace create y append.
             let td = tr.insertCell(-1); //-1 es al final, si no se incluye de igual manera se agrega al final.
             td.textContent = pendiente.descripcion;
-            tr.insertCell().innerHTML = "&vellip"; 
+            tr.insertCell().innerHTML = "&vellip;"; 
         }
     }
 }
