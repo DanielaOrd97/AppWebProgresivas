@@ -16,7 +16,23 @@ header{
     color: white;
     text-align: center;
     font-size: medium;
-    line-height: 50px;
+    line-height: 70px;
+    display:flex;
+    padding:0;
+    justify-content:space-between;
+}
+
+header h1{
+    margin:0;
+    padding:0;
+}
+
+header a{
+    color:white;
+    text-decoration:none;
+    font-size:2em;
+    line-height:70px;
+    margin:0 10px;
 }
 
 main{
@@ -28,6 +44,7 @@ table{
     border-collapse: collapse;
     empty-cells: show;
     font-size: 1.2em;
+    margin-top : 35px;
 }
 
 table thead{
@@ -90,4 +107,20 @@ td > .flotante{
 
 .flotante a:hover {
     background-color:gainsboro;
+}
+
+form{
+    display:flex;
+    margin:20px;
+    flex-direction:column;
+    gap:10px;
+}
+
+form input, form label{
+    font-size:large;
+}
+
+.error{
+    text-align:center;
+    color:red;
 }

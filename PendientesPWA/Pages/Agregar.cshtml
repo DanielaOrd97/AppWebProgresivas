@@ -12,12 +12,17 @@
 
 <body>
 	<header>
+		<a href="#">&#x1F81C</a>
 		<h1>PWA Pendientes</h1>
+		<a href="#" id="agregar">&plus;</a>
 	</header>
 	<main>
 		<form>
 			<label>Pendiente:</label>
-			<input type="text"/>
+			<input required name="descripcion" type="text"/>
+			<p class="error"></p>
+
+			<input type="button"/>
 		</form>
 	</main>
 	<script src="~/Main.js"></script>

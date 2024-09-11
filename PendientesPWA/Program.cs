@@ -20,7 +20,7 @@ var app = builder.Build();
 app.UseStaticFiles(); //para el front de la pwa
 app.MapHub<PendientesHub>("/hub");
 app.MapRazorPages();
-
+app.MapControllers();
 
 app.Run();
 
