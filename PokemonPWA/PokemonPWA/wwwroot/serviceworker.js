@@ -56,3 +56,14 @@ async function getFromCache(request) {
         return new Response("Network error", { status: 500 });
     }
 }
+
+/*
+-Network only: Todo directamente de internet.
+-Cache first: Si lo encuentra en cache lo regresa sino directo de internet.
+-Cache only: Solo regresa lo que se encuentra en cache. (Juegos)
+-Network First: Si hay internet regreso la informacion, de lo contrario regresa de la cache. Primero Internet.
+-Stale While-Revalidate: Primero accede a cache mientras hace la busqueda en internet, al volver a ingresar se vera cache pero con la version actualizada.
+Al mismo tiempo descarga cosas nuevas, pero siempre ve primero cache. Esto se hace al actualizar la app.
+-Cache Then Revalidate: En este caso no es necesario provocar la actualizacion, ya que compara el json que se muestra
+con el json actualizado que corre en segundo plano. El cambio se hace por si solo. version mejorada de Stale While-Revalidate.
+*/
