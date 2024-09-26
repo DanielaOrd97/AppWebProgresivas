@@ -1,6 +1,6 @@
 ﻿// service-worker.js
 
-let urls = [
+let urls = ["/",
     "/index",
     "/datos",
     "/estilos.css",
@@ -22,18 +22,37 @@ self.addEventListener("install", function (e) {
 });
 
 self.addEventListener('fetch', event => {
-    event.waitUntil(getFromCache(event.request));
+    //respondWith devuelve la respuesta directamente de la cache.
+    event.respondWith(getFromCache(event.request));
 });
 
-async function getFromCache(url) {
-    let cache = await caches.open(cachename);
-    //verificar si ya se encuentra la url en cache.
-    let response = await cache.match(url);
+async function getFromCache(request) {
+    // Check if the URL uses the chrome-extension scheme or other unsupported schemes.
+    //urls con esquema de chrome no pueden ser cacheadas, asi que solo hace la solicitud sin guardar en cache.
+    try {
+        if (request.url.startsWith('chrome-extension://')) {
+            return fetch(request); // Simply fetch the request but don't cache it
+        }
 
-    if (response) {
-        return response;
+        let cache = await caches.open(cachename);
+
+        //verificar si ya se encuentra la url en cache.
+        let response = await cache.match(request);
+
+        if (response) {
+            return response; // Return the cached response if it exists
+        } else {
+            let respuesta = await fetch(request);
+            if (respuesta && respuesta.ok) {
+                cache.put(request, respuesta.clone()); // Cache the fetched response
+                //clone es para almacenar la respuesta en cache y para devolverla, ya que una respuesta solo se puede usar una vez.
+            }
+            return respuesta;
+        }
     }
-    else {
-        return await fetch(url);
+    catch (error) {
+        console.error("Error in getFromCache:", error);
+        // Optionally return a fallback response
+        return new Response("Network error", { status: 500 });
     }
 }
