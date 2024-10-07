@@ -115,6 +115,39 @@ async function staleWhileRevalidate(request) {
 }
 
 
+let channel = new BroadcastChannel("refreshchannel");
+
+async function StaleThenRevalidate(request){
+
+    let cache = await caches.open(cachename);
+    let response = await cache.match(request);
+
+    if (response) {
+
+        fetch(request).then(async (res) => {
+            let networkresponse = await fetch(request);
+            let cacheData = await response.text();
+            let networkData = await networkresponse.clone().text();
+
+            if (cacheData != networkData) {
+                cache.put(request, networkresponse.clone());
+                channel.postMessage({
+                    Url: request.url, Data: networkData
+                });
+            }
+        });
+        return response.clone();
+    }
+    else {
+        return NetworkFirst(request);
+    }
+}
+
+//Para nombres de lab: cache first mixto con network first para lo demas. (Proyecto)
+
+
+
+
 /*
 -Network only: Todo directamente de internet.
 -Cache first: Si lo encuentra en cache lo regresa sino directo de internet, despues guarda en cache.
