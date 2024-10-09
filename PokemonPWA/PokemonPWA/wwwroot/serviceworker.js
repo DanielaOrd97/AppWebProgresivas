@@ -22,8 +22,20 @@ self.addEventListener("install", function (e) {
 });
 
 self.addEventListener('fetch', event => {
-    //respondWith devuelve la respuesta directamente de la cache.
-    event.respondWith(cacheFirst(event.request));
+
+    if (event.request.url.contains(".jpg")) {
+        //respondWith devuelve la respuesta directamente de la cache.
+        event.respondWith(cacheFirst(event.request));
+    }
+
+    //si viene de la api
+    else if (event.request.url.startsWith("https://itesrc.net/api")) {
+        event.respondWith(staleWhileRevalidate(event.request));
+    }
+    else {
+        event.respondWith(fetch(event.request));
+    }
+  
 });
 
 async function cacheFirst(request) {
@@ -151,10 +163,16 @@ async function timeBaseCache(req) {
 
     if (cacheresponse) {
         let fechaDescarga = cacheresponse.headers.get("fecha"); //obtener fecha
+        let fecha = new Date(fechaDescarga);
+        let hoy = new Date();
+        let diferencia = hoy - fecha;
 
+        if (diferencia <= maxage) { // si no ha caducado.
+            return cacheresponse;
+        }
 
     }
-    else {
+
         let netResponse = await fetch(req);
 
         //crear una nueva respuesta
@@ -179,8 +197,21 @@ async function timeBaseCache(req) {
 
         cache.put(req, nuevoResponse);
         return netResponse;
-    }
 }
+
+
+async function NetworkCacheRace(req) {
+    let cache = await caches.open(cacheName);
+
+    let promise1 = fetch(req).then(response => {
+        cache.put(req, response.clone());
+        return response;
+    });
+    let promise2 = cache.match(req);
+
+    return Promise.race([promise1, promise2]);
+}
+
 
 //Para nombres de lab: cache first mixto con network first para lo demas. (Proyecto)
 
