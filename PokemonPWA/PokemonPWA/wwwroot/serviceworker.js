@@ -143,6 +143,45 @@ async function StaleThenRevalidate(request){
     }
 }
 
+let maxage = 24 * 60 * 60 * 1000; //24hrs
+async function timeBaseCache(req) {
+    let cache = await caches.open(cacheName);
+
+    let cacheresponse = await cache.match(req);
+
+    if (cacheresponse) {
+        let fechaDescarga = cacheresponse.headers.get("fecha"); //obtener fecha
+
+
+    }
+    else {
+        let netResponse = await fetch(req);
+
+        //crear una nueva respuesta
+        //let nuevoResponse = new Response(netResponse.body, {
+
+        //    statusText: netResponse.statusText,
+        //    status: netResponse.status,
+        //    headers: { fecha: new Date().toISOString() }
+        //}); //agregar el header con la fecha actual.
+
+
+        //EN EL CASO DE COPIAR TAMIBIEN LOS HEADERS QUE YA TENGA LA RESPUESTA.
+        let nuevoResponse = new Response(netResponse.body, {
+
+            statusText: netResponse.statusText,
+            status: netResponse.status,
+            headers: netResponse.headers,
+            type: netResponse.type
+        });
+        
+        nuevoResponse.headers.append("fecha", new Date().toISOString())
+
+        cache.put(req, nuevoResponse);
+        return netResponse;
+    }
+}
+
 //Para nombres de lab: cache first mixto con network first para lo demas. (Proyecto)
 
 
