@@ -18,7 +18,7 @@ namespace ServidorPush.Services
             };
         }
 
-        public async void EnviarNotificacion(PushSubscription cliente, string mensaje)
+        public async Task EnviarNotificacion(PushSubscription cliente, string mensaje)
         {
             await pushClient.SendNotificationAsync(cliente, mensaje, vapid);
         }
