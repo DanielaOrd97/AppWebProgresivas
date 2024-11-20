@@ -37,7 +37,7 @@ namespace ServidorPush.Controllers
         public async Task<IActionResult>EnviarNotificacion(string mensaje)
         {
 
-            foreach (var item in listaSuscriptores)
+            foreach (var item in listaSuscriptores.ToList())
             {
                 await notificationService.EnviarNotificacion(item, mensaje);
             }

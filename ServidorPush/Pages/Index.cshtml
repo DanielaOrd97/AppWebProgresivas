@@ -9,6 +9,7 @@
 	</head>
 	<body>
 		<h1>Ejemplo de notificaciones por PUSH</h1>
+		<h2 class="mensaje"></h2>
 
 		@* REGISTRAR EL Service worker *@
 		<script>
@@ -18,11 +19,16 @@
 			async function Iniciar() {
 			const registro = await navigator.serviceWorker.register("ServiceWorker.js");
 
+			navigator.serviceWorker.addEventListener("message", function (e) {
+				document.querySelector("h2").textContent = e.data;
+			});
+
 			//solicitar un registro push
 				const suscription = await registro.pushManager.subscribe({
 					applicationServerKey : vapidPublicKey, 
 					userVisibleOnly : true
 				});
+
 
 				console.log(JSON.stringify(suscription));
 
